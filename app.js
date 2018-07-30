@@ -158,6 +158,7 @@ function sendPhotoMessage(sender, urls) {
         urls.shift();
         if (urls.length >= 1)
         sendPhotoMessage(sender,urls);
+        else sendTextMessage(sender,'ok');
         
     });
 }
