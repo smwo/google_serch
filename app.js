@@ -79,6 +79,8 @@ var re = 'working';
               sendTextMessage(sender,re);
             
             search(text,function(resu) {
+                re = 'fuond '+resu.length;
+                sendTextMessage(sender,re);
                 sendPhotoMessage(sender,resu);
             });
 
