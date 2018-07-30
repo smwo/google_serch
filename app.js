@@ -147,12 +147,12 @@ function sendPhotoMessage(sender, urls) {
     }, function(error, response, body) {
         if (error) {
             {console.log('Error sending messages: ', error);
-               return;
+               
             }
         }
         else if (response.body.error) {
             console.log('Error: ', response.body.error);
-            return;
+            
         }
         
         urls.shift();
