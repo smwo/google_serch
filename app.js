@@ -76,6 +76,10 @@ app.post('/webhook/', function (req, res) {
                     re = 'use: \n p:[photos]\nv:[video]\n:u[url]';
                     fb.sendTextMessage(sender,re);
                 }
+            else if (text == 'stop')
+                {
+                    fb.stop();
+                }
             else {
                 var im = text.split(':');
                 if(im != text)

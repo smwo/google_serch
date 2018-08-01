@@ -1,5 +1,6 @@
 
 const request = require('request');
+var s;
 
 function sendTextMessage(sender, text) {
     var token = "EAAELRvdKfxEBAP3cXdhHbh01sUalCZCGqZBKRL6ZCdPZAE3UjZC95A9LVVmCFhQTaFHALIL87RGOBgKF7SFB6Ti4gjd8fZA2t2QeUlmIIQOS9D2XFmC5aZBM3hxDNRX0WguyW7vfdylnczsWNTxpmZCxpwBos7DnZBpACuokckNT10HyNpkUvq7DM";
@@ -28,6 +29,7 @@ function sendTextMessage(sender, text) {
 
 
 function sendPhotoMessage(sender, urls) {
+    s = true;
     var token = "EAAELRvdKfxEBAP3cXdhHbh01sUalCZCGqZBKRL6ZCdPZAE3UjZC95A9LVVmCFhQTaFHALIL87RGOBgKF7SFB6Ti4gjd8fZA2t2QeUlmIIQOS9D2XFmC5aZBM3hxDNRX0WguyW7vfdylnczsWNTxpmZCxpwBos7DnZBpACuokckNT10HyNpkUvq7DM";
     var messageData = { attachment:{
         "type":"image",
@@ -57,6 +59,7 @@ function sendPhotoMessage(sender, urls) {
         }
         
         urls.shift();
+        if (s == false) urls = [];
         if (urls.length >= 1)
         sendPhotoMessage(sender,urls);
         else sendTextMessage(sender,'ok');
@@ -64,6 +67,11 @@ function sendPhotoMessage(sender, urls) {
     });
 }
 
+function stop() {
+    s = false;
+}
+
 
 exports.sendTextMessage = sendTextMessage;
 exports.sendPhotoMessage = sendPhotoMessage;
+exports.stop = stop;
