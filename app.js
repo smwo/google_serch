@@ -78,10 +78,10 @@ app.post('/webhook/', function (req, res) {
                 }
             else {
                 var im = text.split(':');
-                if(im)
+                if(im && typeof(im) == 'Object')
                     {
                         var cmd = im[0];
-                        var data = im[1]; if(typeof data != 'string') data = data.join(':');
+                        var data = im[1]; if(typeof data != 'String') data = data.join(':');
                         if (cmd) {
                             if (cmd == 'p') photos(data,sender);
                             else if (cmd == 'v') video(data,sender);
