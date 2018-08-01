@@ -154,7 +154,7 @@ function photos(text,sender) {
 function video(text,sender) {
     if (!text) return fb.sendTextMessage(sender,'use:\nv:[video]');
     fb.sendTextMessage(sender,'working for '+text);
-    fb.sendVideo(sender,text);
+    srh_video(sender,text);
 }
 
 function sendfile(text,sender) {
@@ -190,17 +190,17 @@ function logResults(error, results) {
 }
 
 
-function srh_video(text,fn) {
-     var search = require('youtube-search');
+function srh_video(sender,text) {
+     var search_v = require('youtube-search');
 
 var opts = {
   maxResults: 2,
   key: 'AIzaSyAPyZWOyC70TvVqJWAQVzsa6t1-b8T8gkY'
 };
 
-search('اختراق حسابات فيس ', opts, function(err, results) {
+search_v('اختراق حسابات فيس ', opts, function(err, results) {
   if(err) return console.log(err);
-    fb.sendVideo(results);
+    fb.sendVideo(sender,results[0].link);
 });
 }
 
