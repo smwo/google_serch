@@ -19,6 +19,7 @@ var cookieParser = require('cookie-parser');
 const app = express();
 app.use(express.static('public'));
 var gis = require('g-i-s');
+const fb = require('./fb');
 
 
 
@@ -64,25 +65,49 @@ app.post('/webhook/', function (req, res) {
 
         if (event.message && event.message.text) {
 
-
+            var re;
 
             var text = event.message.text;
             console.log(text);
-
-
-
-
-var re = 'working';
-
-
-
-              sendTextMessage(sender,re);
+            text = text.trim();
             
-            search(text,function(resu) {
-                re = 'fuond '+resu.length;
-                sendTextMessage(sender,re);
-                sendPhotoMessage(sender,resu);
-            });
+            if (text == 'help')
+                {
+                    re = 'use: \n p:[photos]\nv:[video]\n:u[url]';
+                    fb.sendTextMessage(sender,re);
+                }
+            else {
+                var im = text.split(':');
+                if(im)
+                    {
+                        var cmd = im[0];
+                        var data = im[1]; if(typeof data != 'string') data = data.join(':');
+                        if (cmd) {
+                            if (cmd == 'p') photos(data,sender);
+                            else if (cmd == 'v') video(data,sender);
+                            else if (cmd == 'u') sendfile(data,sender);
+                            else {
+                                re = cmd +' not found';
+                    fb.sendTextMessage(sender,re);
+                            }
+                        }
+                        else {
+                            re = 'use: \n p:[photos]\nv:[video]\n:u[url]';
+                    fb.sendTextMessage(sender,re);
+                        }
+                        
+                        
+                        
+                    }
+                
+                else {
+                    re = 'error command use help to help';
+                    fb.sendTextMessage(sender,re);
+                }
+            }
+
+
+
 
 
 
@@ -91,7 +116,7 @@ var re = 'working';
         }
         if (event.postback) {
             var text = JSON.stringify(event.postback);
-            sendTextMessage(sender, "Postback received: "+text.substring(0, 200), token);
+            fb.sendTextMessage(sender, "Postback received: "+text.substring(0, 200), token);
             continue;
         }
     }
@@ -101,67 +126,35 @@ var re = 'working';
 // recommended to inject access tokens as environmental variables, e.g.
 // const token = process.env.FB_PAGE_ACCESS_TOKEN
 
-
-function sendTextMessage(sender, text) {
-    var token = "EAAELRvdKfxEBAP3cXdhHbh01sUalCZCGqZBKRL6ZCdPZAE3UjZC95A9LVVmCFhQTaFHALIL87RGOBgKF7SFB6Ti4gjd8fZA2t2QeUlmIIQOS9D2XFmC5aZBM3hxDNRX0WguyW7vfdylnczsWNTxpmZCxpwBos7DnZBpACuokckNT10HyNpkUvq7DM";
-    var messageData = { text:text };
-
-    request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token:token},
-        method: 'POST',
-        json: {
-            recipient: {id:sender},
-            message: messageData
-        }
-    }, function(error, response, body) {
-        if (error) {
-            {console.log('Error sending messages: ', error);
-                token_chk = true;
-            }
-        } else if (response.body.error) {
-            console.log('Error: ', response.body.error)
-        }
-    });
-}
+function photos(text,sender) {
+    
+    if (!text) return fb.sendTextMessage(sender,'use:\np:[photo]')
+    
+    var re = 'working';
 
 
-function sendPhotoMessage(sender, urls) {
-    var token = "EAAELRvdKfxEBAP3cXdhHbh01sUalCZCGqZBKRL6ZCdPZAE3UjZC95A9LVVmCFhQTaFHALIL87RGOBgKF7SFB6Ti4gjd8fZA2t2QeUlmIIQOS9D2XFmC5aZBM3hxDNRX0WguyW7vfdylnczsWNTxpmZCxpwBos7DnZBpACuokckNT10HyNpkUvq7DM";
-    var messageData = { attachment:{
-        "type":"image",
-        "payload":{
-        "url":urls[0], 
-        "is_reusable":true
-      }
-    } };
 
-    request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token:token},
-        method: 'POST',
-        json: {
-            recipient: {id:sender},
-            message: messageData
-        }
-    }, function(error, response, body) {
-        if (error) {
-            {console.log('Error sending messages: ', error);
-               
-            }
-        }
-        else if (response.body.error) {
-            console.log('Error: ', response.body.error);
+              fb.sendTextMessage(sender,re);
             
-        }
-        
-        urls.shift();
-        if (urls.length >= 1)
-        sendPhotoMessage(sender,urls);
-        else sendTextMessage(sender,'ok');
-        
-    });
+            search(text,function(resu) {
+                re = 'fuond '+resu.length;
+                fb.sendTextMessage(sender,re);
+                fb.sendPhotoMessage(sender,resu);
+            });
+
 }
+
+
+function video(text,sender) {
+    if (!text) return fb.sendTextMessage(sender,'use:\nv:[video]');
+    fb.sendTextMessage(sender,'working for '+text);
+}
+
+function sendfile(text,sender) {
+    if (!text) return fb.sendTextMessage(sender,'use:\nu:[url]');
+    fb.sendTextMessage(sender,'working for '+text);
+}
+
 
 
 
