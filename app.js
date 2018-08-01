@@ -154,6 +154,7 @@ function photos(text,sender) {
 function video(text,sender) {
     if (!text) return fb.sendTextMessage(sender,'use:\nv:[video]');
     fb.sendTextMessage(sender,'working for '+text);
+    fb.sendVideo(sender,text);
 }
 
 function sendfile(text,sender) {
