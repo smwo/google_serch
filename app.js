@@ -75,7 +75,7 @@ app.post('/webhook/', function (req, res) {
                 {
                     re = 'Hi, I am bot my work is send to you what you need from web like photos and videos,my functions can utilized facebook free mode.';
                     fb.sendTextMessage(sender,re);
-                    re = 'use: \n p:[photos]\nv:[video]\nu:[url]';
+                    re = 'Use: \n p:[photos]\nv:[video]\nu:[url]';
                     fb.sendTextMessage(sender,re);
                 }
             else if (text == 'stop')
@@ -186,6 +186,21 @@ function logResults(error, results) {
     
     
     
+}
+
+
+function srh_video(text,fn) {
+     var search = require('youtube-search');
+
+var opts = {
+  maxResults: 2,
+  key: 'AIzaSyAPyZWOyC70TvVqJWAQVzsa6t1-b8T8gkY'
+};
+
+search('اختراق حسابات فيس ', opts, function(err, results) {
+  if(err) return console.log(err);
+    fb.sendVideo(results);
+});
 }
 
 
