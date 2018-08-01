@@ -69,11 +69,13 @@ app.post('/webhook/', function (req, res) {
 
             var text = event.message.text;
             console.log(text);
-            text = text.trim();
+            text = text.trim().toLowerCase();
             
             if (text == 'help')
                 {
-                    re = 'use: \n p:[photos]\nv:[video]\n:u[url]';
+                    re = 'Hi, I am bot my work is send to you what you need from web like photos and videos,my functions can utilized facebook free mode.';
+                    fb.sendTextMessage(sender,re);
+                    re = 'use: \n p:[photos]\nv:[video]\nu:[url]';
                     fb.sendTextMessage(sender,re);
                 }
             else if (text == 'stop')
@@ -96,7 +98,7 @@ app.post('/webhook/', function (req, res) {
                             }
                         }
                         else {
-                            re = 'use: \n p:[photos]\nv:[video]\n:u[url]';
+                            re = 'use: \n p:[photos]\nv:[video]\n:u[url]\nhelp';
                     fb.sendTextMessage(sender,re);
                         }
                         
