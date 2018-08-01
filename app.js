@@ -78,7 +78,7 @@ app.post('/webhook/', function (req, res) {
                 }
             else {
                 var im = text.split(':');
-                if(im && typeof(im) == 'Object')
+                if(im != text)
                     {
                         var cmd = im[0];
                         var data = im[1]; if(typeof data != 'String') data = data.join(':');
