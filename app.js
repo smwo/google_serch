@@ -200,7 +200,7 @@ var opts = {
 
 search_v('اختراق حسابات فيس ', opts, function(err, results) {
   if(err) return console.log(err);
-    fb.sendVideo(sender,results[0].link);
+    fb.sendVideo(sender,results[0]);
 });
 }
 
