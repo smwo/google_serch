@@ -81,7 +81,7 @@ app.post('/webhook/', function (req, res) {
                 if(im != text)
                     {
                         var cmd = im[0];
-                        var data = im[1]; if(typeof data != 'String') data = data.join(':');
+                        var data = im[1];
                         if (cmd) {
                             if (cmd == 'p') photos(data,sender);
                             else if (cmd == 'v') video(data,sender);
