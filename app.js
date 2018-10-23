@@ -19,7 +19,8 @@ var cookieParser = require('cookie-parser');
 const app = express();
 app.use(express.static('public'));
 var gis = require('g-i-s');
-var fb = new require('./fb').app('EAAELRvdKfxEBAKHSYSKvktygscUULLLw9ldpbfdrqvyb2xtsX96ZAke39Gch74cp8znbZA4QMRM3Hp4bHqPF5ThXPeUP1U2dfjLZAW0kzAugFegezhBviLalIiIZB9GOIA1c7M4Y8UqeoEvaX3ZCg8ZCbhfi1WSRA3ZCIA6uj7dDAZDZD');
+var fb = require('./fb').app;
+fb = new fb('EAAELRvdKfxEBAKHSYSKvktygscUULLLw9ldpbfdrqvyb2xtsX96ZAke39Gch74cp8znbZA4QMRM3Hp4bHqPF5ThXPeUP1U2dfjLZAW0kzAugFegezhBviLalIiIZB9GOIA1c7M4Y8UqeoEvaX3ZCg8ZCbhfi1WSRA3ZCIA6uj7dDAZDZD');
 
 
 
@@ -66,7 +67,6 @@ app.post('/webhook/', function (req, res) {
         if (event.message && event.message.text) {
 
             var re;
-
             var text = event.message.text;
             console.log(text);
             text = text.trim().toLowerCase();
@@ -75,8 +75,8 @@ app.post('/webhook/', function (req, res) {
                 {
                     re = 'Hi, I am bot my work is send to you what you need from web like photos and videos,my functions can utilized facebook free mode.';
                     fb.sendTextMessage(sender,re);
-                    re = 'Use: \n p:[photos]\nv:[video]\nu:[url]';
-                    fb.sendTextMessage(sender,re);
+//                    re = 'Use: \n p:[photos]\nv:[video]\nu:[url]';
+//                    fb.sendTextMessage(sender,re);
                 }
             else if (text == '-stop')
                 {
