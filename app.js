@@ -20,8 +20,9 @@ const app = express();
 app.use(express.static('public'));
 var gis = require('g-i-s');
 var fb = require('./fb').app;
-fb = new fb(token);
+
 var token = 'EAAELRvdKfxEBAKHSYSKvktygscUULLLw9ldpbfdrqvyb2xtsX96ZAke39Gch74cp8znbZA4QMRM3Hp4bHqPF5ThXPeUP1U2dfjLZAW0kzAugFegezhBviLalIiIZB9GOIA1c7M4Y8UqeoEvaX3ZCg8ZCbhfi1WSRA3ZCIA6uj7dDAZDZD';
+fb = new fb(token);
 var list = {}
 
 
