@@ -19,7 +19,7 @@ var cookieParser = require('cookie-parser');
 const app = express();
 app.use(express.static('public'));
 var gis = require('g-i-s');
-const fb = require('./fb');
+var fb = new require('./fb').app('EAAELRvdKfxEBAKHSYSKvktygscUULLLw9ldpbfdrqvyb2xtsX96ZAke39Gch74cp8znbZA4QMRM3Hp4bHqPF5ThXPeUP1U2dfjLZAW0kzAugFegezhBviLalIiIZB9GOIA1c7M4Y8UqeoEvaX3ZCg8ZCbhfi1WSRA3ZCIA6uj7dDAZDZD');
 
 
 
@@ -78,7 +78,7 @@ app.post('/webhook/', function (req, res) {
                     re = 'Use: \n p:[photos]\nv:[video]\nu:[url]';
                     fb.sendTextMessage(sender,re);
                 }
-            else if (text == 'stop')
+            else if (text == '-stop')
                 {
                     fb.stop();
                 }
@@ -151,16 +151,16 @@ function photos(text,sender) {
 }
 
 
-function video(text,sender) {
-    if (!text) return fb.sendTextMessage(sender,'use:\nv:[video]');
-    fb.sendTextMessage(sender,'working for '+text);
-    srh_video(sender,text);
-}
-
-function sendfile(text,sender) {
-    if (!text) return fb.sendTextMessage(sender,'use:\nu:[url]');
-    fb.sendTextMessage(sender,'working for '+text);
-}
+//function video(text,sender) {
+//    if (!text) return fb.sendTextMessage(sender,'use:\nv:[video]');
+//    fb.sendTextMessage(sender,'working for '+text);
+//    srh_video(sender,text);
+//}
+//
+//function sendfile(text,sender) {
+//    if (!text) return fb.sendTextMessage(sender,'use:\nu:[url]');
+//    fb.sendTextMessage(sender,'working for '+text);
+//}
 
 
 
@@ -190,19 +190,19 @@ function logResults(error, results) {
 }
 
 
-function srh_video(sender,text) {
-     var search_v = require('youtube-search');
+//function srh_video(sender,text) {
+//     var search_v = require('youtube-search');
+//
+//var opts = {
+//  maxResults: 2,
+//  key: 'AIzaSyAPyZWOyC70TvVqJWAQVzsa6t1-b8T8gkY'
+//};
 
-var opts = {
-  maxResults: 2,
-  key: 'AIzaSyAPyZWOyC70TvVqJWAQVzsa6t1-b8T8gkY'
-};
-
-search_v('اختراق حسابات فيس ', opts, function(err, results) {
-  if(err) return console.log(err);
-    fb.sendVideo(sender,results[0]);
-});
-}
+//search_v('اختراق حسابات فيس ', opts, function(err, results) {
+//  if(err) return console.log(err);
+//    fb.sendVideo(sender,results[0]);
+//});
+//}
 
 
 
