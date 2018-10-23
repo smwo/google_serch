@@ -75,12 +75,12 @@ app.post('/webhook/', function (req, res) {
             text = text.trim().toLowerCase();
             if (sender in list) {
     
-                 if (text == '-stop')
+                 if (text == 'stop' || text == 'توقف' || text == 'اوكف')
                 {
                     fb.stop(sender);
                 }
                 
-                else fb.sendTextMessage('انا لم انتهي من طلبك السابق\nاكتب -stop للتوقف');
+                else fb.sendTextMessage('انا لم انتهي من طلبك السابق\nاكتب stop للتوقف',sender);
             }
             else {
                 
