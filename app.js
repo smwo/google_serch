@@ -20,7 +20,9 @@ const app = express();
 app.use(express.static('public'));
 var gis = require('g-i-s');
 var fb = require('./fb').app;
-fb = new fb('EAAELRvdKfxEBAKHSYSKvktygscUULLLw9ldpbfdrqvyb2xtsX96ZAke39Gch74cp8znbZA4QMRM3Hp4bHqPF5ThXPeUP1U2dfjLZAW0kzAugFegezhBviLalIiIZB9GOIA1c7M4Y8UqeoEvaX3ZCg8ZCbhfi1WSRA3ZCIA6uj7dDAZDZD');
+fb = new fb(token);
+var token = 'EAAELRvdKfxEBAKHSYSKvktygscUULLLw9ldpbfdrqvyb2xtsX96ZAke39Gch74cp8znbZA4QMRM3Hp4bHqPF5ThXPeUP1U2dfjLZAW0kzAugFegezhBviLalIiIZB9GOIA1c7M4Y8UqeoEvaX3ZCg8ZCbhfi1WSRA3ZCIA6uj7dDAZDZD';
+var list = {}
 
 
 
@@ -70,48 +72,38 @@ app.post('/webhook/', function (req, res) {
             var text = event.message.text;
             console.log(text);
             text = text.trim().toLowerCase();
-            
-            if (text == 'help')
+            if (sender in list) {
+    
+                 if (text == '-stop')
                 {
-                    re = 'Hi, I am bot my work is send to you what you need from web like photos and videos,my functions can utilized facebook free mode.';
+                    fb.stop(sender);
+                }
+                
+                else fb.sendTextMessage('انا لم انتهي من طلبك السابق\nاكتب -stop للتوقف');
+            }
+            else {
+                
+                
+                 if (text == 'help' || text == 'مساعدة')
+                {
+                    re =`اكتب كلمة او موضوع لبدء البحث وارسال الصور لك`;
                     fb.sendTextMessage(sender,re);
 //                    re = 'Use: \n p:[photos]\nv:[video]\nu:[url]';
 //                    fb.sendTextMessage(sender,re);
                 }
-            else if (text == '-stop')
-                {
-                    fb.stop();
-                }
-            else {
-                var im = text.split(':');
-                if(im != text)
-                    {
-                        var cmd = im[0];
-                        var data = im[1];
-                        if (cmd) {
-                            if (cmd == 'p') photos(data,sender);
-                            else if (cmd == 'v') video(data,sender);
-                            else if (cmd == 'u') sendfile(data,sender);
-                            else {
-                                re = cmd +' not found';
-                    fb.sendTextMessage(sender,re);
-                            }
-                        }
-                        else {
-                            re = 'use: \n p:[photos]\nv:[video]\n:u[url]\nhelp';
-                    fb.sendTextMessage(sender,re);
-                        }
-                        
-                        
-                        
-                    }
                 
-                else {
-                    re = 'error command use help to help';
-                    fb.sendTextMessage(sender,re);
-                }
+                
+              else {
+                 photos(text,sender);
             }
 
+                
+                
+            }
+            
+           
+            
+         
 
 
 
@@ -134,18 +126,19 @@ app.post('/webhook/', function (req, res) {
 
 function photos(text,sender) {
     
-    if (!text) return fb.sendTextMessage(sender,'use:\np:[photo]')
+    if (!text) return fb.sendTextMessage(sender,'اكتب كلمة للبحث');
     
-    var re = 'working';
-
-
+    var re = 'انتظر, ستظهر النتائج';
 
               fb.sendTextMessage(sender,re);
             
             search(text,function(resu) {
-                re = 'fuond '+resu.length;
+                re = 'وجد '+resu.length;
                 fb.sendTextMessage(sender,re);
-                fb.sendPhotoMessage(sender,resu);
+                fb.sendPhotoMessage(sender,resu,() => {
+                fb.sendTextMessage(sender,'ok');
+                delete list[sender];
+                });
             });
 
 }

@@ -2,7 +2,8 @@
 const request = require('request');
 
 class fb {
-    constructor(token,) {
+    constructor(token,Id) {
+    this.Id = Id;
     this.token = token;
     this.s = false;
   }
@@ -27,8 +28,9 @@ class fb {
     });
 }
     
-    sendPhotoMessage(sender, urls) {
-    this.s = true;
+    sendPhotoMessage(sender, urls, callback) {
+    if (! this.sender)
+    this[sender] = {urls:urls};
     var messageData = { attachment:{
         "type":"image",
         "payload":{
@@ -58,18 +60,17 @@ class fb {
             
         }
         
-        urls.shift();
-        if (this.s == false) urls = [];
-        if (urls.length >= 1)
-        this.sendPhotoMessage(sender,urls);
-        else this.sendTextMessage(sender,'ok');
+        this[sender].urls.shift();
+        if (this[sender].urls.length >= 1)
+        this.sendPhotoMessage(sender,this[sender].urls,callback);
+        else {callback()}
         
     });
     
 }
     
-     stop() {
-    this.s = false;
+     stop(Id) {
+    this[Id].urls = [];
 }
     
 }
