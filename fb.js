@@ -61,8 +61,8 @@ class fb {
         urls.shift();
         if (this.s == false) urls = [];
         if (urls.length >= 1)
-        sendPhotoMessage(sender,urls);
-        else sendTextMessage(sender,'ok');
+        this.sendPhotoMessage(sender,urls);
+        else this.sendTextMessage(sender,'ok');
         
     });
     
