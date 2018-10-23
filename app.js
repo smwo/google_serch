@@ -95,6 +95,7 @@ app.post('/webhook/', function (req, res) {
                 
                 
               else {
+                  list[sender] = true;
                  photos(text,sender);
             }
 
